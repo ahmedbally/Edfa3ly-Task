@@ -2,9 +2,10 @@
 
 namespace App\Commands;
 
+use App\Models\Product;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
-
+use Illuminate\Support\Facades\Log;
 class CreateCartCommand extends Command
 {
     /**
@@ -29,7 +30,13 @@ class CreateCartCommand extends Command
     public function handle()
     {
 //        dd($this->option('bill-currency'));
-        dd($this->arguments());
+//        dd($this->arguments());
+        $product=new Product([
+            'name'=>'T-shirt',
+            'price'=>'20'
+        ]);
+        print_r($product->name);
+
     }
 
     /**

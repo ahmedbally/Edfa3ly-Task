@@ -56,5 +56,5 @@ return [
     'providers' => [
         App\Providers\AppServiceProvider::class,
     ],
-
+    'default_currency'=>'USD'
 ];
