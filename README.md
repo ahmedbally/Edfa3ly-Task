@@ -90,7 +90,7 @@ i created structure of offers that make application scalable and do diffrenet ty
 * percentage: is value discount percentage or only value
 * rules: some rule offer checking to apply offer after that
         
-# Currency Structure
+## Currency Structure
 ```
 [
     'currency'=>'USD',
@@ -103,7 +103,7 @@ i created structure of offers that make application scalable and do diffrenet ty
 * symbol: currency symbol to format prices
 * position: currency format prices symbol position
 * value: value of currency vs dollar example for EGP value=15.74
-# Product Structure
+## Product Structure
 ```
 [
     'name'=>'T-shirt',
