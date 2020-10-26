@@ -75,6 +75,11 @@ I tried to keep my code clear ,commented and professional as i can.
 * applying offer to the cart to get discounts
 * calculate total by sum subtotal and taxes and subtract discounts if exist
 
+## Why using Laravel-Zero
+* i used laravel-zero only as a base to not start from scratch and handle cli arguments
+* loading data from config
+* other wise all writen in pure php
+
 ## Offers solution
 
 i created structure of offers that make application scalable and do diffrenet types of offers
@@ -154,3 +159,6 @@ i faced problems with framework tests and i don't have enough experience with it
 ## Logging & Error Handling
 
 application have well error handling and logging errors if it happend
+
+## Screen Shot
+![Screen Shot](https://i.imgur.com/kK2sDH1.png "Proof of work")
