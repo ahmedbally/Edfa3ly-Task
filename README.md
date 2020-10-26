@@ -148,7 +148,7 @@ run these command in project directory to build as exectable php file
 
 ``` php createbill app:build ```
 
-``` cd build ```
+``` cd builds ```
 
 ``` php createbill --bill-currency=USD T-shirt T-shirt ```
 
