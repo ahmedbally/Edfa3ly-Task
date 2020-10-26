@@ -1,4 +1,4 @@
-# Edfa3ly-Task Challenge
+# Edfa3ly-Task
 
 This repository is sloves backend chanllenge using laravel-zero framework
 
@@ -62,9 +62,12 @@ Total: 467 e£
 ```
 
 ## Problem Solution
+
 Solution based on MVP (Model, View, Presenter) architecture as in cli user interact with cli as a view then send data to presenter and processed with models then result go back to presenter to be viewed.
 I tried to keep my code clear ,commented and professional as i can.
+
 ### Solution steps
+
 * load data from config file inital products,currencies,offers,tax precentage
 * parse user input to set cart and selected currency
 * looping in list of cart products calculating subtotal
@@ -73,8 +76,11 @@ I tried to keep my code clear ,commented and professional as i can.
 * calculate total by sum subtotal and taxes and subtract discounts if exist
 
 ## Offers solution
+
 i created structure of offers that make application scalable and do diffrenet types of offers
+
 ### offer structure
+
 ```
 [
     'on'=>'Jacket',
@@ -91,6 +97,7 @@ i created structure of offers that make application scalable and do diffrenet ty
 * rules: some rule offer checking to apply offer after that
         
 ## Currency Structure
+
 ```
 [
     'currency'=>'USD',
@@ -103,7 +110,9 @@ i created structure of offers that make application scalable and do diffrenet ty
 * symbol: currency symbol to format prices
 * position: currency format prices symbol position
 * value: value of currency vs dollar example for EGP value=15.74
+
 ## Product Structure
+
 ```
 [
     'name'=>'T-shirt',
@@ -114,16 +123,20 @@ i created structure of offers that make application scalable and do diffrenet ty
 * price: price in default currency where value = 1 (shown above)
 
 ## Requirments
+
 * php >= 7.3
 * composer
 
 ## Run
+
 run these command in project directory to run
 
 ``` composer install ```
 
 ``` php createbill --bill-currency=USD T-shirt T-shirt ```
+
 ## Build
+
 run these command in project directory to build as exectable php file
 
 ``` composer install ```
@@ -135,7 +148,9 @@ run these command in project directory to build as exectable php file
 ``` php createbill --bill-currency=USD T-shirt T-shirt ```
 
 ## Tests
+
 i faced problems with framework tests and i don't have enough experience with it
 
 ## Logging & Error Handling
+
 application have well error handling and logging errors if it happend
