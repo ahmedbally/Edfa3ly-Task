@@ -56,5 +56,54 @@ return [
     'providers' => [
         App\Providers\AppServiceProvider::class,
     ],
-    'default_currency'=>'USD'
+    'default_currency'=>'USD',
+    'init_products'=>[
+        [
+            'name'=>'T-shirt',
+            'price'=>'10.99'
+        ],
+        [
+            'name'=>'Pants',
+            'price'=>'14.99'
+        ],
+        [
+            'name'=>'Jacket',
+            'price'=>'19.99'
+        ],
+        [
+            'name'=>'Shoes',
+            'price'=>'24.99'
+        ]
+    ],
+    'init_currencies'=>[
+        [
+            'currency'=>'USD',
+            'symbol'=>'$',
+            'position'=>'left',
+            'value'=>1,
+        ],
+        [
+            'currency'=>'EGP',
+            'symbol'=>'e£',
+            'position'=>'right',
+            'value'=>15.74,
+        ],
+    ],
+    'init_offers'=>[
+        [
+            'on'=>'Shoes',
+            'value'=>10,
+            'percentage'=>true,
+            'rules'=>[]
+        ],
+        [
+            'on'=>'Jacket',
+            'value'=>50,
+            'percentage'=>true,
+            'rules'=>[
+                'T-shirt'=>2,
+            ]
+        ],
+    ],
+    'tax'=>14,
 ];

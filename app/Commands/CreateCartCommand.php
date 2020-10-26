@@ -2,6 +2,7 @@
 
 namespace App\Commands;
 
+use App\Presenters\BillPresenter;
 use App\Models\Product;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
@@ -26,17 +27,30 @@ class CreateCartCommand extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws \Exception
      */
     public function handle()
     {
-//        dd($this->option('bill-currency'));
-//        dd($this->arguments());
-        $product=new Product([
-            'name'=>'T-shirt',
-            'price'=>'20'
-        ]);
-        print_r($product->name);
-
+        try {
+            $bill=new BillPresenter($this->option('bill-currency')??'USD',(array)$this->argument(''));
+            $bill->parseCart();
+            $bill->calculateSubTotal();
+            $bill->calculateTaxes();
+            $bill->calculateOffer();
+            $this->info('Subtotal: ' . $bill->getSubTotal());
+            $this->info('Taxes: ' . $bill->getTaxes());
+            $discounts = $bill->getDiscounts();
+            if (count($discounts)) {
+                $this->info('Discounts:');
+                foreach ($discounts as $discount)
+                    $this->info("\t" . $discount->value . ' off ' . strtolower($discount->product->name) . ': ' . $discount->discount);
+            }
+            $this->info('Total: ' . $bill->getTotal());
+        }
+        catch (\RuntimeException $exception){
+            $this->error($exception->getMessage());
+        }
+        return 0;
     }
 
     /**
