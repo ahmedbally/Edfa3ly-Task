@@ -1,37 +1,141 @@
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
+# Edfa3ly-Task Challenge
 
-<p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://img.shields.io/github/workflow/status/laravel-zero/framework/Tests.svg" alt="Build Status"></img></a>
-  <a href="https://scrutinizer-ci.com/g/laravel-zero/framework"><img src="https://img.shields.io/scrutinizer/g/laravel-zero/framework.svg" alt="Quality Score"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
-</p>
+This repository is sloves backend chanllenge using laravel-zero framework
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+## Challenge Description
 
-Laravel Zero was created by, and is maintained by [Nuno Maduro](https://github.com/nunomaduro), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+***Write a program that can price a cart of products, accept multiple products, combine offers, and display a total detailed bill in different currencies (based on user selection).***
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+Available catalog products and their price in USD:
 
-------
+* T-shirt $10.99
+* Pants $14.99
+* Jacket $19.99
+* Shoes $24.99
 
-## Documentation
+The program can handle some special offers, which affect the pricing.
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+Available offers:
 
-## Support the development
-**Do you like this project? Support it by donating**
+* Shoes are on 10% off.
+* Buy two t-shirts and get a jacket half its price.
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+The program accepts a list of products, outputs the detailed bill of the subtotal, tax, and discounts if applicable, bill can be displayed in various currencies.
 
-## License
+*There is a 14% tax (before discounts) applied to all products.*
 
-Laravel Zero is an open-source software licensed under the [MIT license](https://github.com/laravel-zero/laravel-zero/blob/stable/LICENSE.md).
+E.g.:
+
+Adding the following products:
+
+```
+T-shirt
+T-shirt
+Shoes
+Jacket
+```
+
+Outputs the following bill, the user selected the USD bill:
+
+```
+Subtotal: $66.96
+Taxes: $9.37
+Discounts:
+	10% off shoes: -$2.499
+	50% off jacket: -$9.995
+Total: $63.8404
+```
+
+Another, e.g., If none of the offers are eligible, the user selected the EGP bill:
+
+```
+T-shirt
+Pants
+```
+
+Outputs the following bill:
+
+```
+Subtotal: 409 e£
+Taxes: 57 e£
+Total: 467 e£
+```
+
+## Problem Solution
+Solution based on MVP (Model, View, Presenter) architecture as in cli user interact with cli as a view then send data to presenter and processed with models then result go back to presenter to be viewed.
+I tried to keep my code clear ,commented and professional as i can.
+### Solution steps
+* load data from config file inital products,currencies,offers,tax precentage
+* parse user input to set cart and selected currency
+* looping in list of cart products calculating subtotal
+* calculate taxes from subtotal
+* applying offer to the cart to get discounts
+* calculate total by sum subtotal and taxes and subtract discounts if exist
+
+## Offers solution
+i created structure of offers that make application scalable and do diffrenet types of offers
+### offer structure
+```
+[
+    'on'=>'Jacket',
+    'value'=>50,
+    'percentage'=>true,
+    'rules'=>[
+        'T-shirt'=>2,
+    ]   
+]
+```
+* on: on which offer affect
+* value: precentage or value discounted
+* percentage: is value discount percentage or only value
+* rules: some rule offer checking to apply offer after that
+        
+# Currency Structure
+```
+[
+    'currency'=>'USD',
+    'symbol'=>'$',
+    'position'=>'left',
+    'value'=>1,
+],
+```
+* currency: currency name as user input and working in model  as primary key for search query
+* symbol: currency symbol to format prices
+* position: currency format prices symbol position
+* value: value of currency vs dollar example for EGP value=15.74
+# Product Structure
+```
+[
+    'name'=>'T-shirt',
+    'price'=>'10.99'
+]
+```
+* name: product name as user input and working in model  as primary key for search query
+* price: price in default currency where value = 1 (shown above)
+
+## Requirments
+* php >= 7.3
+* composer
+
+## Run
+run these command in project directory to run
+
+``` composer install ```
+
+``` php createbill --bill-currency=USD T-shirt T-shirt ```
+## Build
+run these command in project directory to build as exectable php file
+
+``` composer install ```
+
+``` php createbill app:build ```
+
+``` cd build ```
+
+``` php createbill --bill-currency=USD T-shirt T-shirt ```
+
+## Tests
+i faced problems with framework tests and i don't have enough experience with it
+
+## Logging & Error Handling
+application have well error handling and logging errors if it happend
