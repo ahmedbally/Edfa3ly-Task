@@ -11,7 +11,7 @@ class Offer extends Model
 
     /**
      * count occurrence of every product in cart
-     * @return array
+     * @return array ["T-shirt":2,"Jacket":1]
      */
     public function counting(){
         return array_count_values(array_map(function ($product){
@@ -33,15 +33,18 @@ class Offer extends Model
     }
 
     /**
-     * check rules of the offer on cart
+     * check rules of the offer on cart by subtract it from cart counting
      * @param $cart
      * @return bool
      */
     public function check_rules(&$cart){
         foreach($this->rules as $key=>$value){
+            //check if rule key ex:T-shirt is in cart counting
             if (!isset($cart[$key]))
                 return false;
+            //after this line for example counting will be ["T-shirt":1,"Jacket":1]
             $cart[$key]-=$value;
+            //if counting less than 0 means that offer not available
             if ($cart[$key]<0) return false;
         }
         return true;
@@ -49,7 +52,7 @@ class Offer extends Model
 
     /**
      * apply offer to the cart
-     * @return Discount
+     * @return Discount|false return false when not applicable or Discount object if applicable
      */
     public function apply()
     {
@@ -64,9 +67,9 @@ class Offer extends Model
             if ($this->check_rules($cart)){
                 //calculate offer discount
                 if ($this->percentage)
-                    $discount-=$product->price * ($this->value/100);
+                    $discount-=$product->price * ($this->value/100); //percentage
                 else
-                    $discount-=$product->price - $this->currency->convert($this->value);
+                    $discount-=$product->price - $this->currency->convert($this->value); //fixed value converted to locale
             }
         }
 
@@ -78,12 +81,7 @@ class Offer extends Model
             'value'=>$this->value,
             'percentage'=>$this->percentage,
         ]);
-        return [
-            'discount_value'=>$discount,
-            'discount'=>$this->currency->format($discount),
-            'product'=>$product,
-            'value'=>$this->percentage?$this->value.'%':$this->currency->format($this->currency->convert($this->value))
-        ];
+
     }
 
 }
